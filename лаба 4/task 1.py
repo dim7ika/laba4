@@ -8,16 +8,19 @@ def task(filepath):
     except (FileNotFoundError, json.JSONDecodeError):
         return 0
 
-    total_sum = 0
+    total_sum = sum(product_gen(data))
+
+    return round(total_sum, 3)
+
+def product_gen(data):
     for item in data:
         try:
             score = float(item["score"])
             weight = float(item["weight"])
-            total_sum += score * weight
+            yield score * weight
         except (KeyError, ValueError, TypeError):
             continue
 
-    return round(total_sum, 3)
 
 filepath = 'input.json'
 sum_of_products = task(filepath)
